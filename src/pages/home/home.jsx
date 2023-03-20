@@ -7,5 +7,6 @@ export const Home = memo(() => (
   <Wrapper>
     <StoreWidget />
     <StoreWidget />
+    <StoreWidget />
   </Wrapper>
 ));

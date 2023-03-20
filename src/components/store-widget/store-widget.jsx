@@ -16,6 +16,7 @@ import {
   Button,
   Input,
   List,
+  Item,
 } from './store-widget.styles';
 
 export const StoreWidget = memo(() => {
@@ -37,11 +38,12 @@ export const StoreWidget = memo(() => {
       data.filter(({ name }) =>
         name.toLowerCase().includes(inputValue.toLowerCase()),
       ),
-    [],
+    [inputValue],
   );
 
   const closeEdition = useCallback(() => {
     setIsEditable(() => false);
+    setInputValue(() => '');
   }, []);
 
   const openEdition = useCallback(() => {
@@ -52,11 +54,14 @@ export const StoreWidget = memo(() => {
     setInputValue(() => target.value);
   }, []);
 
-  const keyHandler = useCallback(({ key }) => {
-    if (key === 'Enter') {
-      closeEdition();
-    }
-  }, []);
+  const keyHandler = useCallback(
+    ({ key }) => {
+      if (key === 'Enter') {
+        closeEdition();
+      }
+    },
+    [closeEdition],
+  );
 
   useOutsideClick(ref, closeEdition);
 
@@ -75,16 +80,16 @@ export const StoreWidget = memo(() => {
             onKeyPress={keyHandler}
           />
           <List>
-            <li>
+            <Item>
               <input
                 type="checkbox"
                 checked={isAllChecked}
                 onChange={handlerChangeAnyCheckbox}
               />
               Any
-            </li>
+            </Item>
             {filteredItems.map(({ name, id }) => (
-              <li key={id}>
+              <Item key={id}>
                 <input
                   type="checkbox"
                   checked={selectedItemsIds.includes(id)}
@@ -93,7 +98,7 @@ export const StoreWidget = memo(() => {
                   }}
                 />
                 {name}
-              </li>
+              </Item>
             ))}
           </List>
         </ContentWrapper>
