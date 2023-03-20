@@ -1,5 +1,10 @@
-import Home from './pages/home';
+import { memo } from 'react';
 
-const App = () => <Home />;
+import { Home } from './pages/home';
+import { WithStoreContext } from './context/store';
 
-export default App;
+export const App = memo(() => (
+  <WithStoreContext>
+    <Home />
+  </WithStoreContext>
+));
